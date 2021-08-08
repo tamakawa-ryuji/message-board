@@ -1,7 +1,8 @@
 class MessagesController < ApplicationController
   before_action :set_message, only: [:show, :edit,:update, :destroy]
+  
   def index
-    @messages = Message.all
+    @pagy, @messages = pagy(Message.order(id: :desc), items:3)
   end
 
   def show
@@ -51,10 +52,6 @@ class MessagesController < ApplicationController
     @message = Message.find(params[:id])
   end
   
-  
-  def message_params
-    params.require(:message).permit(:content)
-  end
 
   def message_params
     params.require(:message).permit(:content, :title)
